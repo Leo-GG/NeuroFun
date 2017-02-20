@@ -26,7 +26,7 @@ function [ burstChar ] = charBursts(Spike,RawBurstNumber)
     cvISI=-1*ones(max(elList),1);
 
     for i=1:max(elList)
-        disp(['Electrode ' num2str(i)])
+        disp(['Burst features done on ' num2str(100*i/max(elList)) '% of Channels '])
         % Burst rate:  bursts per minute on each electrode. 
         rate(i)=length(unique(RawBurstNumber(RawBurstNumber>0 & ...
             Spike.C==i) ) )/(totalT/60);

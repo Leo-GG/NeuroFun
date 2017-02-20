@@ -5,6 +5,7 @@ function cultureChar = neuroFun(Spike)
 % 
 
     %% Basic features
+    fprintf('Computing basic features\n');
     % Firing rates   
     C.fRates = basic.getFRates(Spike);
     % Amplitudes
@@ -14,23 +15,28 @@ function cultureChar = neuroFun(Spike)
     
     %% Bursts
     % Bursting detection
-    [C.Burst C.BurstAssign]=bursts.getBursts(Spike,'GM');
+    fprintf('Performing burst detection\n');
+    [C.Burst, C.BurstAssign]=bursts.getBursts(Spike,'GM');    
     % Burst characteristics
-    [ C.burstChar ]= bursts.charBursts(Spike,C.BurstNumbers);
+    fprintf('Computing bursts features\n');
+    [ C.burstChar ]= bursts.charBursts(Spike,C.BurstAssign);
     
     %% Correlations
     % Correlation using all spikes
+    fprintf('Computing Pairwise correlation using all spikes\n');
     allSpikes = [Spike.T Spike.C];
     C.histCorrelAll=correl.calcSpikeCorr(Spike,allSpikes,'Hist');
     C.sttcCorrelAll=correl.calcSpikeCorr(Spike,allSpikes,'STTC');
     % Correlation using spikes in non-bursting regime
+    fprintf('Computing Pairwise correlation using non-bursting spikes\n');
     nbSpikes = [Spike.T(C.BurstAssign<0) Spike.C(C.BurstAssign<0)];
     C.histCorrellNb=correl.calcSpikeCorr(Spike,nbSpikes,'Hist');
     C.sttcCorrellNb=correl.calcSpikeCorr(Spike,nbSpikes,'STTC');
     
     %% Network properties
     % Correlation-based characteristics
-    [C.netChar]=net.getNetChar(histConnectNb);
+    fprintf('Computing Network Properties\n');
+    [C.netChar]=net.getNetChar(C.histCorrellNb);
     
     cultureChar=C;
     

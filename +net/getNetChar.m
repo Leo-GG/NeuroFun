@@ -15,9 +15,9 @@ normMat=z;
     moduleIdx=zeros(length(thList),length(normMat));
     modularity=zeros(length(thList),1);
 
-    % Calc values for each network density
+    % Calc values for each network density    
     for i=1:length(thList)
-        disp([num2str(i) '%'])
+        disp(['Analyzing network using ' num2str(i) '% of connections'])
         % Reduced % of connections
         sMat=normMat./max(max(normMat));
         capMat=threshold_proportional(normMat,thList(i));  
