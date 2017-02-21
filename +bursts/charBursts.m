@@ -126,6 +126,7 @@ function [ burstChar ] = charBursts(Spike,RawBurstNumber,Burst)
     burstChar.IBIs=IBIs;
     burstChar.sSizes=sSizes;
     burstChar.cSizes=cSizes;
+    burstChar.spikesInB=spikesInB;
     
     
 end
