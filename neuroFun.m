@@ -19,7 +19,7 @@ function cultureChar = neuroFun(Spike)
     [C.Burst, C.BurstAssign]=bursts.getBursts(Spike,'GM');    
     % Burst characteristics
     fprintf('Computing bursts features\n');
-    [ C.burstChar ]= bursts.charBursts(Spike,C.BurstAssign);
+    [ C.burstChar ]= bursts.charBursts(Spike,C.BurstAssign,C.Burst);
     
     %% Correlations
     % Correlation using all spikes

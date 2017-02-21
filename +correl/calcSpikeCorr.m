@@ -8,9 +8,9 @@ function corrMat = calcSpikeCorr(Spike,spikesSet,alg)
 
     switch alg
         case 'Hist'
-            corrMat = calcHistConnect(Spike,spikesSet);
+            corrMat = correl.calcHistConnect(Spike,spikesSet);
         case 'STTC'
-            corrMat = calcSTTCConnect(Spike,spikesSet);    
+            corrMat = correl.calcSTTCConnect(Spike,spikesSet);    
         otherwise 
             fprintf('Invalid argument for algorithm selection\n')
     end

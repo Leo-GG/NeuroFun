@@ -97,7 +97,7 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
         % Assign merged burst information, ignore bursts not meeting the
         % duration and or number of spikes requirement
         if ( mergedLength>= minDuration & length(mergedSpikes)>=minNumSpikes)        
-            SpikeBurstNumber(mergedSpikes)=i-1;
+            SpikeBurstNumber(mergedSpikes)=i;
             mergedBurst.length=[mergedBurst.length mergedLength];
             mergedBurst.T_start=[mergedBurst.T_start mergeStart];
             mergedBurst.T_end=[mergedBurst.T_end mergeEnd];

@@ -81,7 +81,7 @@ function [Burst SpikeBurstNumber burst_th]=getBursts(Spike)
         % Assign merged burst information, ignore bursts not meeting the
         % duration and or number of spikes requirement
         if ( mergedLength>= minDuration & length(mergedSpikes)>=minNumSpikes)        
-            SpikeBurstNumber(mergedSpikes)=i-1;
+            SpikeBurstNumber(mergedSpikes)=i;
             mergedBurst.start=[mergedBurst.start mergeStart];
             mergedBurst.stop=[mergedBurst.stop mergeEnd];
             mergedBurst.length=[mergedBurst.length mergedLength];

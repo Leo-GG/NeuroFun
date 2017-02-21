@@ -14,13 +14,13 @@ function [Burst BurstNumbers ] = getBursts(Spike,alg)
 %
     switch alg
         case 'Hist'
-            [Burst BurstNumbers ] = getBurstsHist(Spike);
+            [Burst BurstNumbers ] = bursts.getBurstsHist(Spike);
         case 'MaxInt'
-            [Burst BurstNumbers ] = getBurstsMaxInt(Spike);
+            [Burst BurstNumbers ] = bursts.getBurstsMaxInt(Spike);
         case 'KS'
-            [Burst BurstNumbers ] = getNetworkBurstsKS(Spike);
+            [Burst BurstNumbers ] = bursts.getNetworkBurstsKS(Spike);
         case 'GM'
-            [Burst BurstNumbers ] = getNetworkBurstsGM(Spike);
+            [Burst BurstNumbers ] = bursts.getNetworkBurstsGM(Spike);
         otherwise 
             fprintf('Invalid argument for algorithm selection\n')
     end
