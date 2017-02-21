@@ -23,20 +23,21 @@ function cultureChar = neuroFun(Spike)
     
     %% Correlations
     % Correlation using all spikes
-    fprintf('Computing Pairwise correlation using all spikes\n');
-    allSpikes = [Spike.T Spike.C];
-    C.histCorrelAll=correl.calcSpikeCorr(Spike,allSpikes,'Hist');
-    C.sttcCorrelAll=correl.calcSpikeCorr(Spike,allSpikes,'STTC');
+    % Use at your risk, might take hours for long recordings!
+    % fprintf('Computing Pairwise correlation using all spikes\n');
+    % allSpikes = [Spike.T Spike.C];
+    % C.histCorrelAll=correl.calcSpikeCorr(Spike,allSpikes,'Hist');
+    % C.sttcCorrelAll=correl.calcSpikeCorr(Spike,allSpikes,'STTC');
     % Correlation using spikes in non-bursting regime
     fprintf('Computing Pairwise correlation using non-bursting spikes\n');
     nbSpikes = [Spike.T(C.BurstAssign<0) Spike.C(C.BurstAssign<0)];
-    C.histCorrellNb=correl.calcSpikeCorr(Spike,nbSpikes,'Hist');
-    C.sttcCorrellNb=correl.calcSpikeCorr(Spike,nbSpikes,'STTC');
+    C.histCorrelNb=correl.calcSpikeCorr(Spike,nbSpikes,'Hist');
+    C.sttcCorrelNb=correl.calcSpikeCorr(Spike,nbSpikes,'STTC');
     
     %% Network properties
     % Correlation-based characteristics
     fprintf('Computing Network Properties\n');
-    [C.netChar]=net.getNetChar(C.histCorrellNb);
+    [C.netChar]=net.getNetChar(C.histCorrelNb);
     
     cultureChar=C;
     

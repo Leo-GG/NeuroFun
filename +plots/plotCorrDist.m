@@ -1,4 +1,4 @@
-function plotCorrDist(M,dist)
+function plotCorrDist(M,dist,labelT)
     
     vM=reshape(M,[],1);
     vDist=reshape(dist,[],1);
@@ -7,5 +7,6 @@ function plotCorrDist(M,dist)
     title('Correlation vs Electrode/Unit distance');
     xlabel('Distance [um]');
     ylabel('Correlation');
+    title(labelT);
 
 end

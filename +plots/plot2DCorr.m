@@ -1,4 +1,4 @@
-function plot2DCorr(M)
+function plot2DCorr(M,labelT)
 
     % Remove empty (zeros) columns and rows. Will fail if number of
     % zero-filled columns and rows are not the same
@@ -9,7 +9,7 @@ function plot2DCorr(M)
     % Plot
     figure;set(gca,'FontSize',20);
     imagesc(M);colorbar;
-    title('Correlation')
+    title(labelT)
     xlabel('Electrode/Unit');
     ylabel('Electrode/Unit');
 
