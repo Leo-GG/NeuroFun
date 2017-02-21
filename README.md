@@ -27,31 +27,31 @@ Basic functions are provided to compute distributions of firing rates, amplitude
 
 #### Burst detection
 Four different methods for burst detection are given:  
-1. 'Hist': uses the histogram-based detection method described in Bakkum et al. (2014, doi: 10.3389/fncom.2013.00193)
-2. 'MaxInt': uses the MaxInterval method as described in the NeuroExplorer package
-3. 'KS': uses a kernel to smooth binned spike frequencies. Bursts are detected as the peaks on the smoothed frequencies and assigned fixed length. Originally implemented by M Fiscella
-4. 'GM': uses a Gaussian Mixture Model to describe the distribution of spike frequencies assuming two distribution (burst/non-burst). The mean of the second distribution minus one standard deviation is taken as threshold to detect bursts
+1. 'Hist': uses the histogram-based detection method described in Bakkum et al. (2014, doi: 10.3389/fncom.2013.00193)  
+2. 'MaxInt': uses the MaxInterval method as described in the NeuroExplorer package  
+3. 'KS': uses a kernel to smooth binned spike frequencies. Bursts are detected as the peaks on the smoothed frequencies and assigned fixed length. Originally implemented by M Fiscella  
+4. 'GM': uses a Gaussian Mixture Model to describe the distribution of spike frequencies assuming two distribution (burst/non-burst). The mean of the second distribution minus one standard deviation is taken as threshold to detect bursts  
 Each method returns a struct containing basic information about the detected bursts (length in seconds, start and end times) and a list which assigns each spike to a burst or to none (-1).  
 
 #### Burst characteristics  
 The following features described in Cotterill et al. (2016, doi:10.1177/1087057116640520) are included, giving values for EACH electrode/unit:  
-* Burst rate: bursts per minute on each electrode
-* Burst duration: duration of each burst on each electrode
-* Fraction of bursting electrodes: number of electrodes with bursting rate>1
-* Within-burst firing rate: mean firing rate within all bursts for each electrode
-* Percentage of spikes in bursts: spikes in bursts/spikes outside for each electrode
-* CV of IBI: std/mean of length of IBIs for each electrode
-* CV of within burst ISIs: std/mean of length of ISIs within bursts for each electrodes
+* Burst rate: bursts per minute on each electrode  
+* Burst duration: duration of each burst on each electrode  
+* Fraction of bursting electrodes: number of electrodes with bursting rate>1  
+* Within-burst firing rate: mean firing rate within all bursts for each electrode  
+* Percentage of spikes in bursts: spikes in bursts/spikes outside for each electrode  
+* CV of IBI: std/mean of length of IBIs for each electrode  
+* CV of within burst ISIs: std/mean of length of ISIs within bursts for each electrodes  
 Additionally, "global" burst features are computed taking into account the combined information from all channels and detected bursts:  
-* Burstiness Index (BI): as described in Wagenaar et al. (2005, Journal of Neuroscience, 25(3):680-688)
-* IBIs: list of all IBIs considering all electrodes/units
-* Bursts sizes in number of spikes
-* Bursts sizes in number of electrode/units involved
+* Burstiness Index (BI): as described in Wagenaar et al. (2005, Journal of Neuroscience, 25(3):680-688)  
+* IBIs: list of all IBIs considering all electrodes/units  
+* Bursts sizes in number of spikes  
+* Bursts sizes in number of electrode/units involved  
 
 ### Correlation  
 Two different measures are implemented to compute the correlation between each pair of spike trains present in the data:  
-1. Cross-correlogram method from Dayan, P & Abbott, L. F. (2001)
-2. Spike Time Tiling Coefficient from Cutts & Eglen (2014)
+1. Cross-correlogram method from Dayan, P & Abbott, L. F. (2001)  
+2. Spike Time Tiling Coefficient from Cutts & Eglen (2014)  
 These methods are implemented in parallel, expect some overhead time when running them. 
 Although both methods are implemented in matrix form, they are demanding on the CPU and might take long to run using all the spikes.
 By default, the NeuroFun function runs these methods using only the non-bursting spikes, which might still take ~1.5 hours for a 30 min recording on 1024 electrodes.  
