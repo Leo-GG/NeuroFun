@@ -6,12 +6,8 @@ function cultureChar = neuroFun(Spike)
 
     %% Basic features
     fprintf('Computing basic features\n');
-    % Firing rates   
-    C.fRates = basic.getFRates(Spike);
-    % Amplitudes
-    C.spikeAmp = basic.getAmplitudes(Spike);
-    % Amplitude Std
-    C.spikeStd = basic.getSpikeStd(Spike);
+    % Get firing rates, peak amplitudes and amplitude std
+    C.basicChar = basic.charBasic(Spike);    
     
     %% Bursts
     % Bursting detection

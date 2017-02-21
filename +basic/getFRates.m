@@ -5,10 +5,10 @@ function fRates=getFRates(Spike)
         nSpikes(i)=sum(Spike.C==i);
     end
     tSeconds=(max(Spike.T)-min(Spike.T))/20000;
-    fRates=nSpikes/tSeconds;
+    fRates=(nSpikes/tSeconds)';
     figure; set(gca,'FontSize',20);
     hist(fRates,100);
     title('Firing rates');
     xlabel('Firing rate [spikes/s]');
-    ylabel('Counts');
+    ylabel('Observations');
 end
