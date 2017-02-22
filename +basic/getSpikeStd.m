@@ -3,7 +3,7 @@ function spikeStd = getAmplitudes(Spike)
 % channel number and amplitude for each channel
     spikeStd = zeros(max(Spike.C),1);
     for i=1:max(Spike.C)
-        iAmps=sum(Spike.A(Spike.C==i));
+        iAmps=Spike.A(Spike.C==i);
         spikeStd(i)=std(iAmps);
     end    
 end

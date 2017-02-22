@@ -4,7 +4,7 @@ function fRates=getFRates(Spike)
     for i=1:max(Spike.C)
         nSpikes(i)=sum(Spike.C==i);
     end
-    tSeconds=(max(Spike.T)-min(Spike.T))/20000;
+    tSeconds=(max(Spike.T)-min(Spike.T));
     fRates=(nSpikes/tSeconds)';
     figure; set(gca,'FontSize',20);
     hist(fRates,100);

@@ -27,7 +27,7 @@ function [ adjMatrix ] = calcSTTCConnect( Spike, spikesSet )
             fr2=length(spikes2)/totalT;
             normR=2/((1/fr1)+(1/fr2));
             if (fr1<0.5) | (fr2<0.5)
-                STTC=0;
+                STTC=-1;
             else
                 STTC=calcSTTC( spikes1,spikes2,totalT,deltaT,T(i),T(j) );
             end
