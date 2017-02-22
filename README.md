@@ -41,12 +41,9 @@ The following features described in Cotterill et al. (2016, doi:10.1177/10870571
 * Within-burst firing rate: mean firing rate within all bursts for each electrode  
 * Percentage of spikes in bursts: spikes in bursts/spikes outside for each electrode  
 * CV of IBI: std/mean of length of IBIs for each electrode  
-<<<<<<< HEAD
-* CV of within burst ISIs: std/mean of length of ISIs within bursts for each electrodes
-=======
+* CV of within burst ISIs: std/mean of length of ISIs within bursts for each electrodes  
 * CV of within burst ISIs: std/mean of length of ISIs within bursts for each electrodes  
   
->>>>>>> c7e48fbd1d1c7dce51a23d345c79aa8dd80a2e23
 Additionally, "global" burst features are computed taking into account the combined information from all channels and detected bursts:  
 * Burstiness Index (BI): as described in Wagenaar et al. (2005, Journal of Neuroscience, 25(3):680-688)  
 * IBIs: list of all IBIs considering all electrodes/units  
