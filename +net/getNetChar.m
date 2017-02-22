@@ -1,7 +1,6 @@
 function [netChar]=getNetChar(normMat)
     % Density values to use (threshold_proportional)
     thList=[0.01:0.01:1];
-cVals=reshape(normMat,[],1);
 z=normMat;
 z( ~any(z,2), : ) = [];  %rows
 z( :, ~any(z,1) ) = [];  %columns
@@ -21,8 +20,14 @@ normMat=z;
         % Reduced % of connections
         sMat=normMat./max(max(normMat));
         capMat=threshold_proportional(normMat,thList(i));  
-capVals=reshape(capMat,[],1);
-        %capMat(capMat>0)=1;
+        capMat(isnan(capMat))=0;
+        if (size(capMat,1)~=size(capMat,2))
+            inDeg(i,:)=-1*ones(length(normMat));
+            outDeg(i,:)=-1*ones(length(normMat));
+            moduleIdx=[];
+            modularity(i)=-1;
+            continue
+        end
         % Degree
         [id,od,deg]=weightedDeg(capMat);
         inDeg(i,:)=id;

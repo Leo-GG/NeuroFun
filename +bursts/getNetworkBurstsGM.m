@@ -4,7 +4,11 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     %% Set default parameters
     if  ~exist('params','var')
         warning('No parameters given, using default values');
-        params.binSize = 0.2; % in s
+        params.binSize = 0.2; % length of bins to divide the data (in s)
+        params.minIBI = 0.8; % bursts are merged if their IBI is smaller 
+                             % than this (in s)
+        params.minDuration = 0.1; % Threshold to discard short bursts (s)
+        params.minNumSpikes = max(unique(Spike.C))/2; % Threshold to discard bursts with few spikes                                                                               
     end
     
     %% Bin the spike times
@@ -52,13 +56,9 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
    
     %% Merge & discard 
     disp('Merging and discarding bursts')
-    % Merge bursts under 800ms
-    minIBI = 0.8; % Threshold to merge bursts
+    % Merge bursts under params.minIBI & discard short/scarce bursts
+    % according to params
 
-    % Parameters to discard short/scarce bursts
-    minDuration = 0.1; % Threshold to discard short bursts (s)
-    minNumSpikes = max(unique(Spike.C))/2; % Threshold to discard bursts with few spikes 
-    
     mergedBurst=[];
     mergedBurst.length=[];
     mergedBurst.T_start=[];
@@ -77,7 +77,7 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
             j=i+1;               
 
             % While bursts are close enough, keep looking at subsequent ones
-            while (( Burst.T_start(j)-mergeEnd )<minIBI  | (Burst.T_end(i)>=Burst.T_end(j)) )
+            while (( Burst.T_start(j)-mergeEnd )<params.minIBI  | (Burst.T_end(i)>=Burst.T_end(j)) )
             %while ( Spike.T(Burst.T_start(j))-Spike.T(Burst.T_end(i)) )<minIBI 
                 mergeStart=Burst.T_start(i);
                 mergeEnd=Burst.T_end(j);
@@ -96,7 +96,8 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
         
         % Assign merged burst information, ignore bursts not meeting the
         % duration and or number of spikes requirement
-        if ( mergedLength>= minDuration & length(mergedSpikes)>=minNumSpikes)        
+        if ( mergedLength>= params.minDuration &...
+                length(mergedSpikes)>=params.minNumSpikes)        
             SpikeBurstNumber(mergedSpikes)=i;
             mergedBurst.length=[mergedBurst.length mergedLength];
             mergedBurst.T_start=[mergedBurst.T_start mergeStart];
