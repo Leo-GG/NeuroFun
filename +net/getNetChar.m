@@ -21,22 +21,23 @@ normMat=z;
         sMat=normMat./max(max(normMat));
         capMat=threshold_proportional(normMat,thList(i));  
         capMat(isnan(capMat))=0;
-        if (size(capMat,1)~=size(capMat,2))
-            inDeg(i,:)=-1*ones(length(normMat));
-            outDeg(i,:)=-1*ones(length(normMat));
+        if (size(capMat,1)~=size(capMat,2) | max(max(capMat))==0)
+            inDeg(i,:)=-1*ones(1,length(normMat));
+            outDeg(i,:)=-1*ones(1,length(normMat));
             moduleIdx=[];
             modularity(i)=-1;
             continue
+        else 
+            % Degree
+            [id,od,deg]=weightedDeg(capMat);
+            inDeg(i,:)=id;
+            outDeg(i,:)=od;
+            totalDeg(i,:)=deg;
+            % Modularity
+            [Ci,Q]=modularity_dir(capMat);
+            moduleIdx(i,:)=Ci;
+            modularity(i)=Q;
         end
-        % Degree
-        [id,od,deg]=weightedDeg(capMat);
-        inDeg(i,:)=id;
-        outDeg(i,:)=od;
-        totalDeg(i,:)=deg;
-        % Modularity
-        [Ci,Q]=modularity_dir(capMat);
-        moduleIdx(i,:)=Ci;
-        modularity(i)=Q;
     end
     netChar.inDeg=inDeg;
     netChar.outDeg=outDeg;

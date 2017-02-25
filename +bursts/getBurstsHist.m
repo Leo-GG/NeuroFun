@@ -11,6 +11,10 @@ function [Burst SpikeBurstNumber burst_th]=getBursts(Spike)
         % Time steps for the ISI_N histograms, in seconds!
         params.steps = 10.^[-5:.05:3];
         params.Fs=20000;
+        params.minIBI = 0.1; % bursts are merged if their IBI is smaller 
+                             % than this (in s)
+        params.minDuration = 0.1; % Threshold to discard short bursts (s)
+        params.minNumSpikes = max(unique(Spike.C))/2; % Threshold to discard bursts with few spikes 
     end
     
     % Merge bursts under 800ms
@@ -42,12 +46,17 @@ function [Burst SpikeBurstNumber burst_th]=getBursts(Spike)
     
     
     %% Merge Burst
-    mergedBurst.start=[];
-    mergedBurst.stop=[];
+    disp('Merging and discarding bursts')
+    % Merge bursts under params.minIBI & discard short/scarce bursts
+    % according to params
+
+    mergedBurst=[];
     mergedBurst.length=[];
     mergedBurst.T_start=[];
     mergedBurst.T_end=[];
     skip=1;
+    numBurst=0;
+    [sortedT orderT]=sort(Spike.T);
     
     for i=1:length(Burst.T_start)
         if i<skip
@@ -55,13 +64,13 @@ function [Burst SpikeBurstNumber burst_th]=getBursts(Spike)
         end
         mergeStart=Burst.T_start(i);
         mergeEnd=Burst.T_end(i);
-        disp(['Checking burst no ' num2str(i)]);
+        disp(['Checking burst no ' num2str(i) ' from ' num2str(length(Burst.T_start))]);
         if i<length(Burst.T_start)
             % Check next burst    
             j=i+1;               
 
             % While bursts are close enough, keep looking at subsequent ones
-            while ( Burst.T_start(j)-mergeEnd )<minIBI 
+            while (( Burst.T_start(j)-mergeEnd )<params.minIBI  | (Burst.T_end(i)>=Burst.T_end(j)) )
             %while ( Spike.T(Burst.T_start(j))-Spike.T(Burst.T_end(i)) )<minIBI 
                 mergeStart=Burst.T_start(i);
                 mergeEnd=Burst.T_end(j);
@@ -76,26 +85,28 @@ function [Burst SpikeBurstNumber burst_th]=getBursts(Spike)
         end
         % Compute length of merged burst in seconds and in number of spikes
         mergedLength = mergeEnd-mergeStart;
-        mergedSpikes = [min(find(Spike.T>=mergeStart)):max(find(Spike.T<=mergeEnd))];
+        mergedSpikes = [min(find(Spike.T(orderT)>=mergeStart)):max(find(Spike.T(orderT)<=mergeEnd))];
         
         % Assign merged burst information, ignore bursts not meeting the
         % duration and or number of spikes requirement
-        if ( mergedLength>= minDuration & length(mergedSpikes)>=minNumSpikes)        
-            SpikeBurstNumber(mergedSpikes)=i;
-            mergedBurst.start=[mergedBurst.start mergeStart];
-            mergedBurst.stop=[mergedBurst.stop mergeEnd];
+        if ( mergedLength>= params.minDuration &...
+                length(mergedSpikes)>=params.minNumSpikes) 
+            numBurst=numBurst+1;
+            SpikeBurstNumber(mergedSpikes)=numBurst;
             mergedBurst.length=[mergedBurst.length mergedLength];
             mergedBurst.T_start=[mergedBurst.T_start mergeStart];
             mergedBurst.T_end=[mergedBurst.T_end mergeEnd];
            % mergedBurst.Spikes=[mergedBurst.Spikes mergedSpikes];
         else
-            SpikeBurstNumber(mergedSpikes)=-1;
+           % SpikeBurstNumber(mergedSpikes)=-1;
         end
         
     end
-
+    SpikeBurstNumber=SpikeBurstNumber(orderT);
     initBurst=Burst;
     Burst=mergedBurst;
+ 
+ 
     
     %% Plot results
     figure, hold on

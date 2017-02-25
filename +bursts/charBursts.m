@@ -1,6 +1,6 @@
 function [ burstChar ] = charBursts(Spike,RawBurstNumber,Burst)
 %Compute parameters to describe the bursting behaviour
-%   Calculates 8 parameters on the detected bursts
+%
 
     burstChar=[];
 

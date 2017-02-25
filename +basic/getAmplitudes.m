@@ -3,7 +3,6 @@ function spikeAmps = getAmplitudes(Spike)
 % number and amplitude for each spike
     spikeAmps = zeros(max(Spike.C),1);
     for i=1:max(Spike.C)
-        iAmps=sum(Spike.A(Spike.C==i));
-        spikeAmps(i)=median(iAmps);
+        spikeAmps(i)=median(Spike.A(Spike.C==i));        
     end    
 end

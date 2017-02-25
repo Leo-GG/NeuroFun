@@ -66,6 +66,8 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     mergedBurst.T_start=[];
     mergedBurst.T_end=[];
     skip=1;
+    numBurst=0;
+    [sortedT orderT]=sort(Spike.T);
     
     for i=1:length(Burst.T_start)
         if i<skip
@@ -94,23 +96,24 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
         end
         % Compute length of merged burst in seconds and in number of spikes
         mergedLength = mergeEnd-mergeStart;
-        mergedSpikes = [min(find(Spike.T>=mergeStart)):max(find(Spike.T<=mergeEnd))];
+        mergedSpikes = [min(find(Spike.T(orderT)>=mergeStart)):max(find(Spike.T(orderT)<=mergeEnd))];
         
         % Assign merged burst information, ignore bursts not meeting the
         % duration and or number of spikes requirement
         if ( mergedLength>= params.minDuration &...
-                length(mergedSpikes)>=params.minNumSpikes)        
-            SpikeBurstNumber(mergedSpikes)=i;
+                length(mergedSpikes)>=params.minNumSpikes) 
+            numBurst=numBurst+1;
+            SpikeBurstNumber(mergedSpikes)=numBurst;
             mergedBurst.length=[mergedBurst.length mergedLength];
             mergedBurst.T_start=[mergedBurst.T_start mergeStart];
             mergedBurst.T_end=[mergedBurst.T_end mergeEnd];
            % mergedBurst.Spikes=[mergedBurst.Spikes mergedSpikes];
         else
-            SpikeBurstNumber(mergedSpikes)=-1;
+           % SpikeBurstNumber(mergedSpikes)=-1;
         end
         
     end
-
+    SpikeBurstNumber=SpikeBurstNumber(orderT);
     initBurst=Burst;
     Burst=mergedBurst;
  
