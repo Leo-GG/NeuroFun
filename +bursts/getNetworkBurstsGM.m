@@ -4,8 +4,10 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     %% Set default parameters
     if  ~exist('params','var')
         warning('No parameters given, using default values');
-        params.binSize = 0.2; % length of bins to divide the data (in s)
-        params.minIBI = 0.8; % bursts are merged if their IBI is smaller 
+        params.binSize = 0.05; % length of bins to divide the data (in s)
+        params.detLim = 1.0; % detection threshold is mean of high freq distribution minus detLim*sigma
+                             % Larger detLim implies more bins detected as bursts!
+        params.minIBI = 0.1; % bursts are merged if their IBI is smaller 
                              % than this (in s)
         params.minDuration = 0.1; % Threshold to discard short bursts (s)
         params.minNumSpikes = max(unique(Spike.C))/2; % Threshold to discard bursts with few spikes                                                                               
@@ -36,9 +38,9 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     % Choose the threshold as mu-sigma from distribution with highest
     % values
     if (gm.mu(1)>gm.mu(2)) 
-        burstTh=gm.mu(1)-gm.Sigma(1);
+        burstTh=gm.mu(1)-params.detLim*gm.Sigma(1);
     else
-        burstTh=gm.mu(2)-gm.Sigma(2);
+        burstTh=gm.mu(2)-params.detLim*gm.Sigma(2);
     end
     burstTh=burstTh*normF+mean(binnedSpikes);
     

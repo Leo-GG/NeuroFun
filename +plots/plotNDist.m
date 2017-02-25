@@ -13,7 +13,7 @@ function plotNDist(data,labelT,labelX,labelY)
         xi=ones(1,length(yi))*i + (-0.3 + (0.6)*rand(length(yi),1))';
         ci=i/nSamples;
         plot( xi , yi , 'o','color',[0 ci 0]);hold on    
-        line([i-0.3 i+0.3 ],[mean(yi),mean(yi)],'color',[0 0 0])
+        line([i-0.3 i+0.3 ],[median(yi),median(yi)],'color',[0 0 0])
     end   
     set(gca,'xtick',[1:nSamples],'xticklabel',labelX)
     title(labelT);

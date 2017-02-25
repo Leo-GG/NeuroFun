@@ -30,7 +30,7 @@ function [ adjMatrix ] = calcHistConnect( Spike, spikesSet, corrLim, binSize )
                 Avals=[Avals 0];
                 Bvals=[Bvals 0];
             else
-                [y,bins,f1,f2] = LIF_xcorr(spikesA,spikesB,binSize,...
+                [y,bins,f1,f2] = correl.LIF_xcorr(spikesA,spikesB,binSize,...
                     [min(Spike.T) max(Spike.T)],corrLim);
                 % Divide by the harmonic mean of the spike rates of A and B            
                 meanFiringRate=2/(1/f1+1/f2);

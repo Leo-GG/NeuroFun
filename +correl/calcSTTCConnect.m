@@ -4,7 +4,7 @@ function [ adjMatrix ] = calcSTTCConnect( Spike, spikesSet )
 %   squared matrix. Normalization by firing rates is implicit in STTC
     
     totalT=(max(Spike.T)-min(Spike.T));
-    adjMatrix=zeros(max(Spike.C),max(Spike.C));
+    adjMatrix=-1*ones(max(Spike.C),max(Spike.C));
     deltaT=50/1000;
     
     % pre-compute T for all units/electrodes

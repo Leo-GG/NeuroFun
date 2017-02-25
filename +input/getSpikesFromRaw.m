@@ -21,10 +21,10 @@ function Spike = getSpikesFromRaw(filePath)
         disp(['Processing ' num2str((i+chunkSize)/20000) ' seconds'])
         %Filter raw data
         startFrame=i;
-        filteredData=filterDataChunk(filePath,firFilter,startFrame,chunkSize-1);
+        filteredData=input.filterDataChunk(filePath,firFilter,startFrame,chunkSize-1);
         % Detect spikes. Peaks given in std units!
         % Peaks columns: Channel Time[Samples] Amplitude[channel Std]
-        [peaks noiseStd chSpikes]=detectSpikes(filteredData,map);
+        [peaks noiseStd chSpikes]=input.detectSpikes(filteredData,map);
         Spike.T=[Spike.T;(peaks(:,2)+(startFrame-1))./Fs];
         Spike.C=[Spike.C;peaks(:,1)];
         Spike.A=[Spike.A;peaks(:,3)];

@@ -39,8 +39,8 @@ end
  P2=sum(sum(abs(diffT)<deltaT,2)>0)/length(spikes2);
 
             
-% T1=(length(spikes1)*2*deltaT)/totalT;
-% T2=(length(spikes2)*2*deltaT)/totalT;
+ %T1=(length(spikes1)*2*deltaT)/totalT;
+ %T2=(length(spikes2)*2*deltaT)/totalT;
 STTC=0.5*( (P1-T2)/(1-P1*T2) + (P2-T1)/(1-P2*T1) );
 
 end

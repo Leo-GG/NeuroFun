@@ -112,7 +112,7 @@ function [ burstChar ] = charBursts(Spike,RawBurstNumber,Burst)
     % Burst sizes in number of channels involved   
     cSizes=zeros(length(burstIdx),1);
     for i=1:length(sSizes)        
-        cSizes(i)=sum(unique(Spike.C(RawBurstNumber==burstIdx(i) )));
+        cSizes(i)=length(unique(Spike.C(RawBurstNumber==burstIdx(i) )));
     end
         
     burstChar.BI=BI;
