@@ -5,7 +5,7 @@ function Spike = getSpikesFromRaw(filePath)
 % The input is loaded in chunks of 10s, filtered and processed to detect
 % peaks using a 5.5 std threshold
 
-    firFilter=genFilter();
+    firFilter=input.genFilter();
     Spike.T=[];
     Spike.C=[];
     Spike.A=[];
