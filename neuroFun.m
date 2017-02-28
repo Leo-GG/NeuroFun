@@ -31,6 +31,7 @@ function cultureChar = neuroFun(Spike)
      C.sttcCorrelNb=correl.calcSpikeCorr(Spike,nbSpikes,'STTC');
      
     %% Network properties
+    % Enable only if BCT is installed!
     % Correlation-based characteristics
     %fprintf('Computing Network Properties\n');
     %[C.netChar]=net.getNetChar(C.histCorrelNb);

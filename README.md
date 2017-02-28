@@ -58,7 +58,7 @@ Although both methods are implemented in matrix form, they are demanding on the 
 By default, the NeuroFun function runs these methods using only the non-bursting spikes, which might still take ~1.5 hours for a 30 min recording on 1024 electrodes.  
 
 ### Network  
-Functions for computing a few network properties are provided: in-degree, out-degree and modularity. 
+Functions for computing a few network properties are provided: in-degree, out-degree and modularity. These do depend on Brain Connectivity Toolbox (https://sites.google.com/site/bctnet/), DO NOT USE unless you have installed BCT.
 These computations are based on the correlation between channels, making the assumption that the correlation is a good representation for the connectivity. 
 Only correlation values above 0 can be used, thus STTC is not suitable for this unless it is renormalized (which might turn it into an incorrect representation of the network connectivity).  
 All the features are computed for a ranged of thresholded networks, so a different percentage of connections is considered at a time, 
