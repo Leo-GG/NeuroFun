@@ -4,7 +4,7 @@ function plotNDist(data,labelT,labelX,labelY)
 % distributions corresponding to each of the vectores side by side 
 
     nSamples=size(data,2);
-    figure;set(gca,'FontSize',20);
+    figure;set(gca,'FontSize',30);
 
     y=[];
     x=[];
@@ -12,10 +12,10 @@ function plotNDist(data,labelT,labelX,labelY)
         yi=data{i};        
         xi=ones(1,length(yi))*i + (-0.3 + (0.6)*rand(length(yi),1))';
         ci=i/nSamples;
-        plot( xi , yi , 'o','color',[0 ci 0]);hold on    
-        line([i-0.3 i+0.3 ],[median(yi),median(yi)],'color',[0 0 0])
+        plot( xi , yi , '.','color',[0 ci 0],'MarkerSize',20);hold on    
+        line([i-0.3 i+0.3 ],[median(yi),median(yi)],'LineStyle','--','color',[1 0 0],'LineWidth',3)
     end   
-    set(gca,'xtick',[1:nSamples],'xticklabel',labelX)
+    set(gca,'xtick',[1:nSamples],'xticklabel',labelX)    
     title(labelT);
     ylabel(labelY);
 end

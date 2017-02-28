@@ -26,7 +26,7 @@ function [Burst SpikeBurstNumber burst_th]=getBursts(Spike)
     
     %% ISI Probability histograms
     % Probability histogram
-    ISIP = HistogramISIn( Spike.T, params.nRange, params.steps );
+    ISIP = input.HistogramISIn( Spike.T, params.nRange, params.steps );
     % Find threshold to identify bursting regime, using N=10 (change value
     % if histogram does not look right).
     [peak loc]=findpeaks(1-ISIP(8,:));
@@ -110,7 +110,7 @@ function [Burst SpikeBurstNumber burst_th]=getBursts(Spike)
     
     %% Plot results
     figure, hold on
-    set(gca,'FontSize',20);
+    set(gca,'FontSize',30);
     %
     % % Order y-axis channels by firing rates
     tmp = zeros( 1, max(Spike.C)-min(Spike.C) );
@@ -135,7 +135,7 @@ function [Burst SpikeBurstNumber burst_th]=getBursts(Spike)
     for i=ID
         Detected = [ Detected Burst.T_start(i) Burst.T_end(i) NaN ];
     end
-    plot( Detected, (max(Spike.C)+1)*ones(size(Detected)), 'r', 'linewidth', 4 )
+    plot( Detected, (max(Spike.C)+30)*ones(size(Detected)), 'r', 'linewidth', 40 )
     %
     xlabel 'Time [sec]'
     ylabel 'Unit'

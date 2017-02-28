@@ -5,9 +5,9 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     if  ~exist('params','var')
         warning('No parameters given, using default values');
         params.binSize = 0.05; % length of bins to divide the data (in s)
-        params.detLim = 1.0; % detection threshold is mean of high freq distribution minus detLim*sigma
+        params.detLim = 1; % detection threshold is mean of high freq distribution minus detLim*sigma
                              % Larger detLim implies more bins detected as bursts!
-        params.minIBI = 0.1; % bursts are merged if their IBI is smaller 
+        params.minIBI = 0.13; % bursts are merged if their IBI is smaller 
                              % than this (in s)
         params.minDuration = 0.1; % Threshold to discard short bursts (s)
         params.minNumSpikes = max(unique(Spike.C))/2; % Threshold to discard bursts with few spikes                                                                               
@@ -23,18 +23,24 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     cDist=binnedSpikes-mean(binnedSpikes); % Normalize the distribution to -1:1 interval and center on 0
     normF=max(cDist);
     normDist=cDist./normF;
-    %figure;hist(normDist,100)
+     
 
     options = statset('MaxIter',1000);
     gm = fitgmdist(normDist,2,'Options',options); % Generate model as mixture of 2 gaussians
-%     figure;
+    
+%     figure;set(gca,'FontSize',30);
+%     [peaks locs]=hist(normDist,100);
+%     plot(locs,peaks/sum(peaks),'LineWidth',4); hold on;
+%     title('Probability distribution of spike frequencies')
 %     samples=[-1:0.01:1]';
-%     norm = normpdf(samples,gm.mu(1),gm.Sigma(1));
-%     plot(samples,norm,'r');
+%     norm = normpdf(locs,gm.mu(1),gm.Sigma(1));
+%     plot(locs+0.11,norm/(max(norm)*1.5/max(peaks/sum(peaks))),'r','LineWidth',4);
 %     hold on;
-%     norm = normpdf(samples,gm.mu(2),gm.Sigma(2));
-%     plot(samples,norm,'g');
-%     
+%     norm = normpdf(locs,gm.mu(2),gm.Sigma(2));
+%     plot(locs+0.11,norm/(max(norm)/max(peaks/sum(peaks))),'g','LineWidth',4);
+%     xlabel('Normalized frequency');
+%     ylabel('Probability');
+%     legend('Observed','First Gaussian','Second Gaussian')
     % Choose the threshold as mu-sigma from distribution with highest
     % values
     if (gm.mu(1)>gm.mu(2)) 
@@ -45,9 +51,13 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     burstTh=burstTh*normF+mean(binnedSpikes);
     
     % Show bins above threshold
-    figure;plot(times,binnedSpikes);
+    figure;plot(times,binnedSpikes);set(gca,'FontSize',30);
     hold on;plot(times(binnedSpikes>burstTh),...
-        binnedSpikes(binnedSpikes>burstTh),'o','markersize',2,'color','r');
+        binnedSpikes(binnedSpikes>burstTh),'*','markersize',10,'color','r');
+    xlabel('Time [s]');
+    ylabel(['Frequency of events [spikes/' num2str(params.binSize) 's]']);
+    title('Frequency of spike events');
+
     %% Assign bursts
     % Designate the time around the detected peak as a burst
     Burst.T_start=times(binnedSpikes>burstTh)-params.binSize/2;
@@ -133,7 +143,7 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     
     % Raster plot   
     figure, hold on;
-    set(gca,'FontSize',20);
+    set(gca,'FontSize',30);
     plot( Spike.T, OrderedChannels(Spike.C), 'k.' )
     set( gca, 'ytick', (min(Spike.C):max(Spike.C))+1, 'yticklabel', ...
     ID-min(ID)+min(Spike.C) ); % set yaxis to channel ID   
@@ -143,7 +153,7 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     for i=ID
         Detected = [ Detected Burst.T_start(i) Burst.T_end(i) NaN ];
     end
-    plot( Detected, (max(Spike.C)+3)*ones(size(Detected)), 'r', 'linewidth', 4 )   
+    plot( Detected, (max(Spike.C)+5)*ones(size(Detected)), 'r', 'linewidth', 40 )   
     xlabel 'Time [sec]'
     ylabel 'Unit'
     legend('Spike Times','Bursts');

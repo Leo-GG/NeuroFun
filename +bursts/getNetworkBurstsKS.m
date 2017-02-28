@@ -39,11 +39,14 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     
     %% Plot results            
     % Plot firing rates on binned time
-    figure;
+    figure;set(gca,'FontSize',30);
     plot(times,firingRate);    
     % Plot detected burst centers
     hold on;
-    plot(times(locs),firingRate(locs),'ko','markersize',5,'linewidth',2);
+    plot(times(locs),firingRate(locs),'ko','markersize',10,'linewidth',4);
+    xlabel('Time [s]');
+    ylabel(['Frequency of events [spikes/' num2str(params.binSize) 's]']);
+    title('Frequency of spike events');
     
     % Order y-axis channels by firing rates
     tmp = zeros( 1, max(Spike.C)-min(Spike.C) );
@@ -58,7 +61,7 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     
     % Raster plot   
     figure, hold on
-    set(gca,'FontSize',20);
+    set(gca,'FontSize',30);
     plot( Spike.T, OrderedChannels(Spike.C), 'k.' )
     set( gca, 'ytick', (min(Spike.C):max(Spike.C))+1, 'yticklabel', ...
     ID-min(ID)+min(Spike.C) ) % set yaxis to channel ID   
@@ -68,7 +71,7 @@ function [Burst SpikeBurstNumber]=getNetworkBursts(Spike,params)
     for i=ID
         Detected = [ Detected Burst.T_start(i) Burst.T_end(i) NaN ];
     end
-    plot( Detected, (max(Spike.C)+3)*ones(size(Detected)), 'r', 'linewidth', 4 )   
+    plot( Detected, (max(Spike.C)+30)*ones(size(Detected)), 'r', 'linewidth', 40 )   
 
     xlabel 'Time [sec]'
     ylabel 'Unit'
