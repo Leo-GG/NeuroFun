@@ -32,11 +32,12 @@ plots.plotDist(demoChar.burstChar.CV_IBI(demoChar.burstChar.CV_IBI>0)...
     ,'CV of IBI per electrode','Demo Sample','CV');
 
 % Network features
-figure;plot([1:100],demoChar.netChar.mod)
-set(gca,'FontSize',20);
-title('Modularity');
-xlabel('% of connections considered (in order of strenght)');
-ylabel('Modularity');
+% Enable only if BCT is installed and the calculations were run
+%figure;plot([1:100],demoChar.netChar.mod)
+%set(gca,'FontSize',20);
+%title('Modularity');
+%xlabel('% of connections considered (in order of strenght)');
+%ylabel('Modularity');
 
 
 %% Compare distributions (useful for multiple samples)

@@ -32,8 +32,8 @@ function cultureChar = neuroFun(Spike)
      
     %% Network properties
     % Correlation-based characteristics
-    fprintf('Computing Network Properties\n');
-    [C.netChar]=net.getNetChar(C.histCorrelNb);
+    %fprintf('Computing Network Properties\n');
+    %[C.netChar]=net.getNetChar(C.histCorrelNb);
     
     %% Return values
     cultureChar=C;
