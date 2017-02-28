@@ -4,10 +4,10 @@ load('NeuroFun/demoData/demoSpike.map')
 load('NeuroFun/demoData/mapP.map')
 dist=mapP
 
-%% Restrict to first two minutes 
-demoSpike.C=Spike.C(Spike.T<30);
-demoSpike.T=Spike.T(Spike.T<30);
-demoSpike.A=Spike.A(Spike.T<30);
+%% Restrict to first 30 seconds
+demoSpike.C=demoSpike.C(demoSpike.T<30);
+demoSpike.T=demoSpike.T(demoSpike.T<30);
+demoSpike.A=demoSpike.A(demoSpike.T<30);
 
 %% Perform full analysis
 demoChar = neuroFun(demoSpike) 
