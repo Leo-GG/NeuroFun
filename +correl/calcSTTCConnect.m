@@ -4,12 +4,15 @@ function [ adjMatrix ] = calcSTTCConnect( Spike, spikesSet )
 %   squared matrix. Normalization by firing rates is implicit in STTC
     
     totalT=(max(Spike.T)-min(Spike.T));
-    adjMatrix=-1*ones(max(Spike.C),max(Spike.C));
+    
+    c = unique(Spike.C);
+    nC = numel(c);
+    adjMatrix=-1*ones(nC,nC);
     deltaT=50/1000;
     
     % pre-compute T for all units/electrodes
-    T=zeros(max(Spike.C),1);
-    for i=1:max(Spike.C)
+    T=zeros(nC,1);
+    for i=1:nC
         spikesC=spikesSet(spikesSet(:,2)==i,1);
         Tfull=(length(spikesC)*2*deltaT);
         ISIs=diff(spikesC);
@@ -17,11 +20,11 @@ function [ adjMatrix ] = calcSTTCConnect( Spike, spikesSet )
         T(i)=(Tfull-sum(overlap(overlap>0)))/totalT;
     end
     
-    parfor i=1:max(Spike.C)
+    parfor i=1:nC
         disp(['Processing channel ' num2str(i)])
         spikes1=spikesSet(spikesSet(:,2)==i,1);
         iVals=zeros(1,i);
-        for j=i+1:max(Spike.C)
+        for j=i+1:nC
             spikes2=spikesSet(spikesSet(:,2)==j,1);
             fr1=length(spikes1)/totalT;
             fr2=length(spikes2)/totalT;
@@ -29,14 +32,14 @@ function [ adjMatrix ] = calcSTTCConnect( Spike, spikesSet )
             if (fr1<0.5) | (fr2<0.5)
                 STTC=-1;
             else
-                STTC=calcSTTC( spikes1,spikes2,totalT,deltaT,T(i),T(j) );
+                STTC = correl.calcSTTC( spikes1,spikes2,totalT,deltaT,T(i),T(j) );
             end
             %adjMatrix(i,j)=STTC;
             %adjMatrix(j,i)=STTC;
 
             iVals=[iVals STTC];
         end
-        if (length(iVals)==max(Spike.C))
+        if (length(iVals)==nC)
             adjMatrix(i,:)=iVals;
         end
     end

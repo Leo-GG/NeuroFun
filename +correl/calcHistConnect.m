@@ -13,15 +13,17 @@ function [ adjMatrix ] = calcHistConnect( Spike, spikesSet, corrLim, binSize )
         binSize=0.001; % Bin sizes on the cross-correlogram
     end
     
-    adjMatrix=zeros(max(Spike.C),max(Spike.C));
-    invMatrix=zeros(max(Spike.C),max(Spike.C));
+    c = unique(Spike.C);
+    nC = numel(c);
+    adjMatrix=zeros(nC,nC);
+    invMatrix=zeros(nC,nC);
     totalT=max(Spike.T)-min(Spike.T);
-    parfor unitA=1:(max(Spike.C))
+    parfor unitA=1:(nC)
         disp(['Processing channel ' num2str(unitA)])
         spikesA=spikesSet(spikesSet(:,2)==unitA,1);
         Avals=zeros(1,unitA);
         Bvals=zeros(1,unitA);
-        for unitB=(unitA+1):max(Spike.C)
+        for unitB=(unitA+1):nC
             % Cross-correlogram
             spikesB=spikesSet(spikesSet(:,2)==unitB,1);
             f1=length(spikesA)/totalT;
