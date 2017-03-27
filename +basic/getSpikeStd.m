@@ -3,9 +3,11 @@ function spikeStd = getAmplitudes(Spike)
 % channel number and amplitude for each channel
 % Amplitudes should be in number channel std, so the peak std caused by the
 % cell is estimated as std(peak)-1/mean(peaks)
-    spikeStd = zeros(max(Spike.C),1);
-    for i=1:max(Spike.C)
-        iAmps=Spike.A(Spike.C==i);
+    
+    c = unique(Spike.C);
+    spikeStd = zeros(numel(c),1);
+    for i=1:numel(c)
+        iAmps=Spike.A(Spike.C==c(i));
         spikeStd(i)=(std(iAmps)-0.75)/median(iAmps);
         if spikeStd(i)<0
             spikeStd(i)=0;

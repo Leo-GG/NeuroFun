@@ -1,8 +1,9 @@
 function fRates=getFRates(Spike)
 % Return spike rates for all the Units in the Spike structure. 
 % Input contains C (channel/unit) and T (spike times in samples) fields
-    for i=1:max(Spike.C)
-        nSpikes(i)=sum(Spike.C==i);
+    c = unique(Spike.C);
+    for i=1:numel(c)
+        nSpikes(i)=sum(Spike.C==c(i));
     end
     tSeconds=(max(Spike.T)-min(Spike.T));
     fRates=(nSpikes/tSeconds)';
