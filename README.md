@@ -51,7 +51,7 @@ Additionally, "global" burst features are computed taking into account the combi
 
 ### Correlation  
 Two different measures are implemented to compute the correlation between each pair of spike trains present in the data:  
-1. Cross-correlogram method from Dayan, P & Abbott, L. F. (2001)  
+1. Summation over spike trains cross-correlograms (Dayan, P & Abbott, L. F. (2001)) , normalized by harmonic averages of firing rates
 2. Spike Time Tiling Coefficient from Cutts & Eglen (2014)  
 These methods are implemented in parallel, expect some overhead time when running them. 
 Although both methods are implemented in matrix form, they are demanding on the CPU and might take long to run using all the spikes.
